@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Report SYSTEM "first.dtd">
+<Report>
+    <Metadata>
+        <Author affiliation="IOE">
+            <Name>A</Name>
+            <Email>asd@asd.com</Email>
+            <HomePhone>123</HomePhone>
+        </Author>
+        <Author affiliation="IOE">
+            <Name>B</Name>
+            <Email>asd@asd.com</Email>
+            <WorkPhone>456</WorkPhone>
+        </Author>
+        <Assignment AssCode="11">
+            <Course>Web</Course>
+            <Date>22</Date>
+            <Title>Lecutre</Title>
+            <Description>loremipsum</Description>
+        </Assignment>
+    </Metadata>
+
+    <Body>
+        <Section title="title1">
+            <Para>loremipsum</Para>
+        </Section>
+
+    </Body>
+</Report>

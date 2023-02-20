@@ -1,0 +1,100 @@
+html,
+body {
+    height: 100%;
+}
+
+/*body {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}*/
+
+/* .btn .btn-lg .btn-block a:hover {
+    box-shadow: 10px 10px 5px rgb(46, 3, 3) !important;
+} */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.btn-upload {
+    width: 150px;
+    padding: 10px 15px;
+    background-color: #686868;
+    color: white;
+    cursor: pointer;
+
+}
+
+.overlay {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    position: fixed;
+    top: 0%;
+    left: 0;
+    z-index: -1;
+    opacity: 0;
+    transition: 1s;
+}
+
+.showoverlay {
+    opacity: 1;
+    z-index: 1;
+    margin-left: 0;
+}
+
+.uploadform {
+    width: 350px;
+    background-color: white;
+    padding: 30px 20px;
+    position: absolute;
+    transition: 1s;
+    z-index: 9;
+    left: 35vw;
+    top: -50vh;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 10px 3px #444444;
+}
+
+.showuploadform {
+    top: 25vh;
+    z-index: 1;
+}
+
+.uploadform input {
+    width: 100%;
+    height: 35px;
+    padding: 40px;
+    margin-bottom: 15px;
+
+}
+
+.uploadform button {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    padding: 10px 15px;
+
+}
+
+.uploadform span {
+    position: absolute;
+    right: 0px;
+    width: 30px;
+    color: white;
+    line-height: 30px;
+    height: 30px;
+    background-color: red;
+    text-align: center;
+    top: 0px;
+    cursor: pointer;
+}
+
+input[type=file]{
+    box-shadow: none;
+}
