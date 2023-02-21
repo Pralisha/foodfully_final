@@ -28,20 +28,16 @@ $mail->SMTPOptions = array(
 );
 $mail->Host = 'smtp.gmail.com';
 $mail->SMTPAuth = true;
-$mail->Username = 'foodfullynepal@gmail.com';
-$mail->Password = 'vnnoddeqyljpjwes';
-$mail->SMTPSecure = "tls";
-$mail->Port = 587;
-   // $name = $_SESSION['fullname'];
-   // $email = $_SESSION['email'];
-//Recipients
+$mail->Username = 'foodfullynepal1@gmail.com';
 
+        $mail->Password = 'uywwkuxmhjntbzqn';
+        $mail->SMTPSecure = "tls";
+        $mail->Port = 587;
 
+        //Recipients
+        $mail->setFrom('foodfullynepal1@gmail.com', $username);
+        $mail->addAddress('foodfullynepal1@gmail.com');
 
-
-
-$mail->setFrom('foodfullynepal@gmail.com', $username);
-$mail->addAddress('foodfullynepal@gmail.com');
 
 
 

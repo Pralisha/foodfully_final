@@ -55,7 +55,7 @@ body {
     position: absolute;
     transition: 1s;
     z-index: 9;
-    left: 35vw;
+    left: 15vw;
     top: -50vh;
     transform: translate(-50%, -50%);
     box-shadow: 0px 0px 10px 3px #444444;

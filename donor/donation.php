@@ -3,6 +3,9 @@ include 'logout.php';
 
 include '..\main_page_partials\config.php';
 
+$sort_value = NULL;
+$sort_value= filter_input(INPUT_POST, 'sorted', FILTER_SANITIZE_STRING);
+
 $username = $_SESSION['name'];
 $sql = "SELECT profile_pic FROM donor WHERE username = '$username'";
 $res = mysqli_query($con, $sql);
@@ -81,6 +84,10 @@ if (isset($_GET['delivery'])) {
         }
         #navbarNav .navbar-nav li a:hover{
             color: #FFBF2C !important;
+        }
+        form{
+            margin-left:70vw;
+            MARGIN-TOP:5px;
         }
     </style>
 </head>
@@ -187,6 +194,16 @@ if (isset($_GET['delivery'])) {
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card">
                                 <h5 class="card-header">Donation Information</h5>
+                                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?> " method="post">
+                                    <label for="sorted">Sort by: </label>
+                                    <select  name="sorted" id="sorted">
+                                        <option  <?php if (filter_input(INPUT_POST, 'sorted', FILTER_SANITIZE_STRING) == 'upload') { ?>selected="true" <?php }; ?>value="upload">Status</option>
+                                        <option <?php if (filter_input(INPUT_POST, 'sorted', FILTER_SANITIZE_STRING) == 'expiry') { ?>selected="true" <?php }; ?>value="expiry">Expiry Date</option>
+                                        
+                                       
+                                    </select>
+                                    <input type="submit" value="Go">
+                                    </form> 
                                 <div class="card-body">
                                     <div class="table-responsive ">
                                         <table class="table">
@@ -212,7 +229,21 @@ if (isset($_GET['delivery'])) {
                                             <tbody>
                                             <?php
                                             
-                                            $sql = "SELECT * FROM donations WHERE username = '$username' ORDER BY best_before";
+                                            if($sort_value=="expiry")
+                                            {
+                                                $sql = "SELECT * FROM donations WHERE username = '$username' ORDER BY best_before";
+                                            }
+                                           
+                                            else if($sort_value=="upload")
+                                            {
+                                                $sql = "SELECT * FROM donations WHERE username = '$username' ORDER BY status DESC";
+                                            }
+                                           else
+                                           {
+                                            $sql = "SELECT * FROM donations WHERE delivery_status=0 AND (status=0 OR acceptor_name='$username') order by id";
+                                           }
+                                         
+                                           
                                             $sql_query = mysqli_query($con, $sql);
                                             while ($row = mysqli_fetch_assoc($sql_query)) {
                                                 $username = $row['username'];

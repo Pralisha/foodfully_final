@@ -26,10 +26,14 @@ function sendemail_notification($title, $location) {
             'allow_self_signed' => true
         )
     );
+
+   
+
+
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'foodfullynepal@gmail.com';
-    $mail->Password = 'vnnoddeqyljpjwes';
+    $mail->Username = 'foodfullynepal1@gmail.com';
+    $mail->Password = 'uywwkuxmhjntbzqn';
     $mail->SMTPSecure = "tls";
     $mail->Port = 587;
     // $name = $_SESSION['fullname'];
@@ -43,7 +47,7 @@ function sendemail_notification($title, $location) {
         $name = $row['name'];
         $email = $row['email'];
 
-        $mail->setFrom('foodfullynepal@gmail.com', $name);
+        $mail->setFrom('foodfullynepal1@gmail.com', $name);
         $mail->addAddress($email);
 
 

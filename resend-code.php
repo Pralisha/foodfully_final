@@ -29,15 +29,14 @@ function resend_email_verify($name, $email, $verify_token, $account_type)
     );
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'foodfullynepal@gmail.com';
-    $mail->Password = 'vnnoddeqyljpjwes';
+    $mail->Username = 'foodfullynepal1@gmail.com';
+    $mail->Password = 'uywwkuxmhjntbzqn';
     $mail->SMTPSecure = "tls";
     $mail->Port = 587;
 
     //Recipients
-    $mail->setFrom('foodfullynepal@gmail.com', $name);
+    $mail->setFrom('foodfullynepal1@gmail.com', $name);
     $mail->addAddress($email);
-
 
 
     //Content

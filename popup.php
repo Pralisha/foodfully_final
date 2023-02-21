@@ -39,12 +39,13 @@
                 position: absolute;
                 transition: 1s;
                 z-index: 9;
-                left: 50%;
-                top: -50%;
+                left: 25vw;
+                top: 50vh ;
                 transform: translate(-50%,-50%);
                 box-shadow: 0px 0px 10px 3px #444444 ;
             }
             .showuploadform{
+                left:25vw;
                 top:50%;
                 z-index: 1;
             }

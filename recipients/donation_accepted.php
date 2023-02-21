@@ -43,10 +43,14 @@ function sendemail($a_name,$d_name, $address, $contact, $a_email,$d_email,$type)
             'allow_self_signed' => true
         )
     );
+
+   
+
+
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'foodfullynepal@gmail.com';
-    $mail->Password = 'vnnoddeqyljpjwes';
+    $mail->Username = 'foodfullynepal1@gmail.com';
+    $mail->Password = 'uywwkuxmhjntbzqn';
     $mail->SMTPSecure = "tls";
     $mail->Port = 587;
     // $name = $_SESSION['fullname'];
@@ -55,7 +59,7 @@ function sendemail($a_name,$d_name, $address, $contact, $a_email,$d_email,$type)
 
     if ($type === "donor") { 
 
-    $mail->setFrom('foodfullynepal@gmail.com', $d_name);
+    $mail->setFrom('foodfullynepal1@gmail.com', $d_name);
     $mail->addAddress($d_email);
 
         //Content
@@ -77,7 +81,7 @@ function sendemail($a_name,$d_name, $address, $contact, $a_email,$d_email,$type)
      }
     else
     {
-        $mail->setFrom('foodfullynepal@gmail.com', $a_name);
+        $mail->setFrom('foodfullynepal1@gmail.com', $a_name);
         $mail->addAddress($a_email);
     
             //Content
