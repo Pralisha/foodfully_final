@@ -28,6 +28,7 @@ $image = $res['profile_pic'];
     <link rel="stylesheet" href="../assets/vendor/vector-map/jqvmap.css">
     <link rel="stylesheet" href="../assets/vendor/jvectormap/jquery-jvectormap-2.0.2.css">
     <link rel="stylesheet" href="../assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <title>Food Donation Services</title>
     <style>
         ul.navbar-nav li a{
@@ -66,7 +67,7 @@ $image = $res['profile_pic'];
         <!-- ============================================================== -->
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                <a class="navbar-brand" href="../home.php" style="font-weight: 900; font-size: 35px;">Food<span>Fully</span></a>
+                <a class="navbar-brand" href="home.php" style="font-weight: 900; font-size: 35px;">Food<span>Fully</span></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -153,61 +154,43 @@ $image = $res['profile_pic'];
                 <!-- pagehader  -->
                 <!-- ============================================================== -->
                 <div class="row">
-                
                     <!-- metric -->
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="text-muted">Total Food Donation</h5>
+                                <h5 class="text-muted">Number of Donations</h5>
                                 <div class="metric-value d-inline-block">
-                                    <h1 class="mb-1 text-primary">100 </h1>
+                                    <h1 class="mb-1 text-primary">
+                                    <?php
+                                        
+                                        $con = mysqli_connect("localhost","root","","foodfully");
+                                        
+                                        // Check connection
+                                        if (mysqli_connect_errno()) {
+                                          echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                                          exit();
+                                        }
+                                        $query = "SELECT count(*) AS donation_count FROM donations WHERE username= '$username' GROUP BY username";
+                                        $query_result = mysqli_query($con, $query);
+                                        $row = mysqli_fetch_assoc($query_result); 
+                                        if($row){
+                                            $donation_count = $row['donation_count'];
+                                        }
+                                        else{
+                                            $donation_count=0;
+                                        }   
+                                        echo $donation_count;
+                                        ?>
+                                    </h1>
                                 </div>
                             </div>
-                            <div id="sparkline-2"></div>
+                            <div id="sparkline-1"></div>
                         </div>
                     </div>
-                    <!-- /. metric -->
-                </div>
                 <!-- ============================================================== -->
                 <!-- revenue  -->
                 <!-- ============================================================== -->
-                <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-8 col-sm-12 col-12">
-                        <div class="card">
-                            <h5 class="card-header">Donation</h5>
-                            <div class="card-body">
-                                <canvas id="revenue" width="400" height="150"></canvas>
-                            </div>
-                            <div class="card-body border-top">
-                                <div class="row">
-                                    <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 p-3">
-                                        <h4> Today's Doanation: Php 2,800.30</h4>
-                                        <p>
-                                        </p>
-                                    </div>
-                                    <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 p-3">
-                                        <h2 class="font-weight-normal mb-3"><span>Php 48,325</span>                                                    </h2>
-                                        <div class="mb-0 mt-3 legend-item">
-                                            <span class="fa-xs text-primary mr-1 legend-title "><i class="fa fa-fw fa-square-full"></i></span>
-                                            <span class="legend-text">Current Week</span></div>
-                                    </div>
-                                    <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 p-3">
-                                        <h2 class="font-weight-normal mb-3">
-
-                                                        <span>Php 59,567</span>
-                                                    </h2>
-                                        <div class="text-muted mb-0 mt-3 legend-item"> <span class="fa-xs text-secondary mr-1 legend-title"><i class="fa fa-fw fa-square-full"></i></span><span class="legend-text">Previous Week</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- ============================================================== -->
-                    <!-- end reveune  -->
-                    <!-- ============================================================== -->
-                    <!-- ============================================================== -->
-                   
-                </div>
+                <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
             </div>
         </div>
         <!-- ============================================================== -->
@@ -234,32 +217,55 @@ $image = $res['profile_pic'];
      <!-- dashboard sales js
     <script src="../assets/libs/js/dashboard-sales.js"></script>
     -->
-    <?php
-        $data=array(10, 20, 30 ,40 ,50);
-    ?>
-    <script>
-    var ctx = document.getElementById('revenue').getContext('2d');
-    var chart = new Chart(ctx, {
-        type: 'line',
+    <<?php
+    $sql_donation_fetch = "SELECT MONTH(best_before) AS month, COUNT(id) AS total_donations FROM donations WHERE username='$username' GROUP BY MONTH(best_before)";
+    $result = mysqli_query($con, $sql_donation_fetch);
+
+    $xValues = array();
+    $yValues = array();
+    $barColors = array("red", "green", "blue", "orange", "brown", "pink", "skyblue", "purple", "black", "maroon", "lightgreen", "violet");
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $xValues[] = date("F", mktime(0, 0, 0, $row["month"], 1));
+        $yValues[] = $row["total_donations"];
+    }
+?>
+
+<script>
+    var xValues = <?php echo json_encode($xValues); ?>;
+    var yValues = <?php echo json_encode($yValues); ?>;
+    var barColors = <?php echo json_encode($barColors); ?>;
+
+    new Chart("myChart", {
+        type: "bar",
         data: {
-            //labels: [<?php echo implode(",",array_column($data,'x_axis_data')); ?>],
+            labels: xValues,
             datasets: [{
-                label: 'Y Axis Label',
-                data: [<?php echo json_encode($data); ?>],
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
+                backgroundColor: barColors,
+                data: yValues
             }]
         },
         options: {
+            legend: {display: false},
+            title: {
+                display: true,
+                text: "Total Donations"
+            },
+            
             scales: {
-                y: {
-                    beginAtZero: true
-                }
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number of Donations'
+                    }
+                }]
+            
             }
         }
+    
     });
 </script>
+
 </body>
  
 </html>

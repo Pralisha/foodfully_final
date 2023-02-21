@@ -1,6 +1,34 @@
 <?php
-//include 'logout.php';
+include 'logout.php';
 
+include '..\main_page_partials\config.php';
+
+
+$username = $_SESSION['name'];
+$sql = "SELECT profile_pic FROM acceptor WHERE username = '$username'";
+$res = mysqli_query($con, $sql);
+$res = (mysqli_fetch_assoc($res));
+//$image = $res['profile_pic'];
+
+
+if (isset($_GET['donation'])) {
+    if ($_GET['donation'] == 'success') {
+        $addMsg = '<div class="alert alert-success alert-dismissible fade show" role="alert" style="text-align:center;">
+            <strong>Donation has been accepted.</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+            </button>
+            </div>';
+    }
+    if ($_GET['donation'] == 'cancel') {
+        $addMsg = '<div class="alert alert-danger alert-dismissible fade show" role="alert" style="text-align:center;">
+            <strong>Donation has been cancelled.</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+            </button>
+            </div>';
+    }
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -19,6 +47,7 @@
     <link href="/fontawesome-free-6.2.1-web/css/fontawesome.css" rel="stylesheet">
     <link href="/fontawesome-free-6.2.1-web/css/solid.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4b244575e7.js" crossorigin="anonymous"></script>
+
     <style>
         ul.navbar-nav li a{
             color: black !important;
@@ -109,6 +138,7 @@
                             <li class="nav-item ">
                                 <a class="nav-link" href="donation.php" style="background-color: #b6991786;"><i class="fa fa-fw fa-hand-holding-heart"></i>Donation <span class="badge badge-success">6</span></a>
                             </li>
+                            <!--
                             <li class="nav-item ">
                                 <a class="nav-link" href="request.php"><i class="fa fa-fw fa-hands-helping"></i>Request Assistance <span class="badge badge-success">6</span></a>
                             </li>
@@ -121,6 +151,7 @@
                             <li class="nav-item ">
                                 <a class="nav-link" href="waste.php"><i class="fa-solid fa-recycle"></i>Waste Management<span class="badge badge-success">6</span></a>
                             </li>
+    -->
                         </ul>
                     </div>
                 </nav>
@@ -154,7 +185,7 @@
                 </div>
                 <!-- ============================================================== -->
                 <!-- end pageheader -->
-                <!-- ============================================================== -->
+                <!-- ============================================================== --><!--
                
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -245,14 +276,109 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <!-- ============================================================== -->
                         <!-- end responsive table -->
                         <!-- ============================================================== -->
-                    </div>
+                    <!--</div>
                
-            </div>
-            
+            </div>-->
+            <!-------------------------------------------------------------->
+            <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">Donations</h5>
+                                <?php
+                                                    if(isset($addMsg))
+                                                    {
+                                                    echo $addMsg;
+                                                    }
+                                                ?>
+                               
+                                <div class="card-body" style="display:inline-grid; grid-template-columns: auto auto auto auto;" >
+                                   
+                                   
+                           
+                            <?php     
+                            
+                                            $sql = "SELECT * FROM donations";
+                                            $sql_query = mysqli_query($con, $sql);
+                                            while ($row = mysqli_fetch_assoc($sql_query)) {
+                                                $username = $row['username'];
+                                                $title = $row['title'];
+                                                $description = $row['description'];
+                                                $best_before = $row['best_before'];
+                                                $img_path = $row['image'];
+                                                $pickup = $row['pickup'];
+                                                $status = $row['status'];
+                                                $id = $row['id'];
+                                                $value = "bg-danger";
+                                                $text = "Expired";
+                                                $accept_date = $row['accept_date'];
+                                                if($status==0)
+                                                {
+                                                    $value = "bg-info";
+                                                    $text="Pending";
+                                                }
+                                                else if($status==1)
+                                                {
+                                                    $value = "bg-warning";
+                                                    $text = "Accepted";
+
+                                                }
+                                                else if($status==2)
+                                                {
+                                                    $value = "bg-success";
+                                                    $text="Received";
+                                                }
+                                                
+                                              
+                                     
+                                   echo ('
+                                   <div class="card zoom " style="width: 18rem; margin-top:20px; border-radius:15px; ">
+                                  
+                                    
+                                  
+                                   <div style="height:175px; overflow:hidden;"> <a href="../donor/donation_img/'.$img_path.'" class="bg-image hover-zoom"><img class=" card-img-top hover-zoom" src="../donor/donation_img/'.$img_path.'" alt="Card image cap" style="border-top-left-radius:15px; border-top-right-radius:15px;  ">
+                                   
+                                   </a></div>
+                                    
+                                                <div class="card-body">
+                                                    <h5 class="card-title">'.$title. '</h5> 
+                                                    <a href="viewprofile.php?username='.$username.'" class="card-link" style="pointer:cursor;">'.$username.'</a>
+                                                    
+                                                </div>
+                                               
+                                                <ul class="list-group list-group-flush">
+                                                <li class="list-group-item"><p class="card-text">
+                                                <span class="badge '.$value.' text-white">'.$text.'</span>
+                                                ');     
+                                                
+                                                   
+                                            echo('
+                                                <li class="list-group-item"><p class="card-text">'.$description. '</p></li>
+                                                    <li class="list-group-item"><span style="font-weight: bold;"> Best-before Date: </span>'.$best_before. '</li>
+                                                    <li class="list-group-item"><span style="font-weight: bold;">Pickup-point:</span> '.$pickup. '</li>
+                                                    
+                                                </ul>
+                                                <div class="card-body">
+                                                '); 
+                                                if ($status==0)
+                                                {   
+                                                echo'<a href="donation_accepted.php?id='.$id.'" style="cursor:pointer; border:0px; background:none;" >Accept Donation</a>';
+                                                
+                                                }
+                                                else
+                                                {
+                                                    echo'<a href="donation_cancel.php?id='.$id.'" style="cursor:pointer; border:0px; background:none;" >Cancel</a>';
+                                                }
+                                                 echo'</div>    
+                                            </div>
+                                '; } ?> 
+                               
+                                </div>
+                            </div>
+                        </div>
         </div>
     </div>
     <!-- ============================================================== -->
