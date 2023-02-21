@@ -168,22 +168,58 @@ $image = $res['profile_pic'];
                             <div id="sparkline-1"></div>
                         </div>
                     </div> 
-                                 -->
+                             -->
                                
                    
                     <!-- /. metric -->
                     <!-- metric -->
+                    <div class="row">
+                    <!-- metric -->
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="text-muted">Total Food Received</h5>
+                                <div class="metric-value d-inline-block">
+                                    <h1 class="mb-1 text-primary">
+                                    <?php
+                                        
+                                        $con = mysqli_connect("localhost","root","","foodfully");
+                                        
+                                        // Check connection
+                                        if (mysqli_connect_errno()) {
+                                          echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                                          exit();
+                                        }
+                                        $query = "SELECT count(*) AS donation_accept_count FROM donations WHERE acceptor_name= '$username' GROUP BY acceptor_name";
+                                        $query_result = mysqli_query($con, $query);
+                                        $row = mysqli_fetch_assoc($query_result); 
+                                        if($row){
+                                            $donation_count = $row['donation_accept_count'];
+                                        }
+                                        else{
+                                            $donation_count=0;
+                                        }   
+                                        echo $donation_count;
+                                        ?>
+                                    </h1>
+                                </div>
+                            </div>
+                            <div id="sparkline-1"></div>
+                        </div>
+                    </div>
+                    <!--
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                         <div class="card">
                             <div class="card-body">
                                     <h5 class="text-muted">Total Food Received</h5>
                                 <div class="metric-value d-inline-block">
-                                    <h1 class="mb-1 text-primary">31 </h1>
+                                    <h1 class="mb-1 text-primary">2 </h1>
                                 </div>
                             </div>
                             <div id="sparkline-2"></div>
                         </div>
-                    </div>        
+                    </div>      
+                    -->  
                     <!-- /. metric -->
                 </div>
                 <!-- ============================================================== -->
