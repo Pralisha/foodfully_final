@@ -81,7 +81,7 @@ $title = $_POST['title'];
 $description = $_POST['description'];
 $best_before = $_POST['best_before_date'];
 $location = $_POST['location'];
-$Category_of_Waste = "None";
+//$Category_of_Waste = "None";
 $latlong = json_decode($_POST['latlong'], true);
 print_r($latlong);
 
@@ -116,7 +116,7 @@ if (isset($_FILES['my_image'])) {
             $img_upload_path = 'donation_img/' . $new_img_name;
             move_uploaded_file($tmp_name, $img_upload_path);
             $sql = "INSERT INTO donations (
-                username,title,description,best_before,image,pickup,Category_of_Waste, lat,lng) VALUES ('$username','$title','$description','$best_before','$new_img_name','$location','$Category_of_Waste', $lat, $lng)";
+                username,title,description,best_before,image,pickup,lat,lng) VALUES ('$username','$title','$description','$best_before','$new_img_name','$location', $lat, $lng)";
             $sql_query = mysqli_query($con, $sql);
 
             sendemail_notification($title, $location);

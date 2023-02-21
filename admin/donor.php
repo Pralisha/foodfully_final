@@ -1,6 +1,5 @@
 <?php
-include 'logout.php';
-
+include '..\main_page_partials\config.php';
 ?>
 <!doctype html>
 <html lang="en">
@@ -109,18 +108,7 @@ include 'logout.php';
                             <li class="nav-item ">
                                 <a class="nav-link" href="donation.php"><i class="fa fa-fw fa-hand-holding-heart"></i>Donation <span class="badge badge-success">6</span></a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="request.php"><i class="fa fa-fw fa-hands-helping"></i>Request Assistance <span class="badge badge-success">6</span></a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="reports.php"><i class="fa fa-fw fa-chart-pie"></i>Reports <span class="badge badge-success">6</span></a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="animal.php"><i class="fa-solid fa-paw"></i>Animal Welfare<span class="badge badge-success">6</span></a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="waste.php"><i class="fa-solid fa-recycle"></i>Waste Management<span class="badge badge-success">6</span></a>
-                            </li>
+                            
                         </ul>
                     </div>
                 </nav>
@@ -163,16 +151,22 @@ include 'logout.php';
                                 <div class="card-body">
                                     <div class="table-responsive ">
                                         <table class="table">
+                                        <?php
+                                            if (isset($addMsg))
+                                                echo $addMsg;
+                                            ?>
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Complete Name</th>
                                                     <th scope="col">Address</th>
+                                                    <th scope="col">Username</th>
                                                     <th scope="col">Email</th>
                                                     <th scope="col">Contact</th>
-                                                    <th scope="col">Account Status</th>
-                                                    <th scope="col">Action</th>
+                                                    <th scope="col">id</th>
+                                                    <!--<th scope="col">Action</th>-->
                                                 </tr>
                                             </thead>
+                                            <!--
                                             <tbody>
                                                 <tr>
                                                     <td>Mark Otto</td>
@@ -204,6 +198,44 @@ include 'logout.php';
                                                         </a>
                                                       </td>
                                                 </tr>
+                                            </tbody>
+    -->
+                                            <tbody>
+                                            <?php
+                                            
+                                            $sql = "SELECT name,address,email,contact,id,username FROM donor";
+                                            $sql_query = mysqli_query($con, $sql);
+                                            while ($row = mysqli_fetch_assoc($sql_query)) {
+                                                $username = $row['username'];
+                                                $name = $row['name'];
+                                                $address = $row['address'];
+                                                $email = $row['email'];
+                                                $contact = $row['contact'];
+                                                $id = $row['id'];
+                                                
+                                               // print_r($current_date);
+                                                echo '<tr>';
+                                                echo'<td><a href="dhistory.php" .> '.$name. ' </a> </td> ';
+                                                echo'<td>'.$address. '</td> ';
+                                                echo'<td style="width:400px;">'.$username. '</td> ';
+                                                echo'<td>'.$email. '</td> ';
+                                                echo'<td>'.$contact.'</td> ';
+                                                echo'<td>'.$id. '</td> ';
+                                                /*<td class="align-right">
+                                                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                                          <i class="fa fa-edit"></i>
+                                                        </a> |
+                                                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                                          <i class="fa fa-trash-alt"></i>
+                                                        </a>
+                                                      </td>;*/
+                                              
+                                                
+                                                
+                                                 echo '</tr> ';
+
+                                            }
+                                            ?>
                                             </tbody>
                                         </table>
                                     </div>

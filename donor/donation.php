@@ -222,7 +222,7 @@ if (isset($_GET['delivery'])) {
                                                     <th scope="col">Status</th>
                                                     <th scope="col">Action</th>
                                                     <th scope="col">Delivery Status</th>
-                                                    <th scope="col">Category for Waste Management</th>
+                                                    <!--<th scope="col">Category for Waste Management</th>-->
                                                 </tr>
                                             </thead>
                                             
@@ -254,7 +254,7 @@ if (isset($_GET['delivery'])) {
                                                 $pickup = $row['pickup'];
                                                 $status = $row['status'];
                                                 $id = $row['id'];
-                                                $Category_of_Waste = $row['Category_of_Waste'];
+                                               // $Category_of_Waste = $row['Category_of_Waste'];
                                                 $current_date = date("Y-m-d");
                                                 $accept_date = $row['accept_date'];
                                                 $start_date = strtotime($accept_date);
@@ -317,7 +317,7 @@ if (isset($_GET['delivery'])) {
                                                     {
                                                         echo '<td style="text-align:center;"><i class="fa-solid fa-circle-check text-success" style=" font-size:24px;"></i></td>';
                                                     }
-                                                    echo'<td>'.$Category_of_Waste. '</td> ';
+                                                   // echo'<td>'.$Category_of_Waste. '</td> ';
                                                  echo '</tr> ';
                                                  
 

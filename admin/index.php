@@ -23,6 +23,7 @@ include 'logout.php';
     <link href="/fontawesome-free-6.2.1-web/css/fontawesome.css" rel="stylesheet">
     <link href="/fontawesome-free-6.2.1-web/css/solid.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4b244575e7.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <title>Food Donation Services</title>
     <style>
         ul.navbar-nav li a{
@@ -114,17 +115,7 @@ include 'logout.php';
                             <li class="nav-item ">
                                 <a class="nav-link" href="donation.php"><i class="fa fa-fw fa-hand-holding-heart"></i>Donation <span class="badge badge-success">6</span></a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="request.php"><i class="fa fa-fw fa-hands-helping"></i>Request Assistance <span class="badge badge-success">6</span></a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="reports.php"><i class="fa fa-fw fa-chart-pie"></i>Reports <span class="badge badge-success">6</span></a>
-                                <li class="nav-item ">
-                                    <a class="nav-link" href="animal.php"><i class="fa-solid fa-paw"></i>Animal Welfare<span class="badge badge-success">6</span></a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link" href="waste.php"><i class="fa-solid fa-recycle"></i>Waste Management<span class="badge badge-success">6</span></a>
-                                </li>
+
                             </li>
                         </ul>
                     </div>
@@ -166,7 +157,24 @@ include 'logout.php';
                             <div class="card-body">
                                 <h5 class="text-muted">Number of Donors</h5>
                                 <div class="metric-value d-inline-block">
-                                    <h1 class="mb-1 text-primary">300 </h1>
+                                    <h1 class="mb-1 text-primary">
+                                    <?php
+                                        
+                                        $con = mysqli_connect("localhost","root","","foodfully");
+                                        
+                                        // Check connection
+                                        if (mysqli_connect_errno()) {
+                                          echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                                          exit();
+                                        }
+                                        $query = "SELECT COUNT(id) AS tfood FROM donor";
+                                        $query_result = mysqli_query($con, $query);
+                                        while ($row = mysqli_fetch_assoc($query_result)) {
+                                            $output = $row['tfood'];
+                                        }
+                                        echo $output;
+                                        ?>
+                                    </h1>
                                 </div>
                             </div>
                             <div id="sparkline-1"></div>
@@ -179,37 +187,94 @@ include 'logout.php';
                             <div class="card-body">
                                 <h5 class="text-muted">Number of Recipients</h5>
                                 <div class="metric-value d-inline-block">
-                                    <h1 class="mb-1 text-primary">400 </h1>
+                                    <h1 class="mb-1 text-primary">
+                                    <?php
+                                        $query = "SELECT COUNT(id) AS tacceptor FROM acceptor";
+                                        $query_result = mysqli_query($con, $query);
+                                        while ($row = mysqli_fetch_assoc($query_result)) {
+                                            $output = $row['tacceptor'];
+                                        }
+                                        echo $output;
+                                        ?>
+                                    </h1>
                                 </div>
                             </div>
                             <div id="sparkline-2"></div>
                         </div>
                     </div>
                     <!-- /. metric -->
-                    <!-- metric -->
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="text-muted">Number of Users</h5>
-                                <div class="metric-value d-inline-block">
-                                    <h1 class="mb-1 text-primary">56</h1>
-                                </div>
-                            </div>
-                            <div id="sparkline-3">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /. metric -->
+                    <!-- graph -->
+                    
+                    
+
                 </div>
+              <!--  <div id="my-chart" style="width: 100%; height: 400px;"></div>-->
+                <script type="text/javascript">
+            google.charts.load('current', {
+                'packages': ['corechart'],
+                'AIzaSyD2qa7fez3bItj4wIPEUoo07Tx_gX2jctw': ''   // her eyou can put you google map key
+            });
+            google.charts.setOnLoadCallback(drawRegionsMap);
+
+            function drawRegionsMap() {
+                var data = google.visualization.arrayToDataTable([
+                    ['Best before', 'Status'],
+                     <?php
+                     $chartQuery = "SELECT * FROM donations";
+                     $chartQueryRecords = mysqli_query($con, $chartQuery);
+                        while($row = mysqli_fetch_assoc($chartQueryRecords)){
+                            echo "['".$row['best_before']."',".$row['status'].",";
+                        }
+                     ?>
+                ]);
+
+                var options = {
+                   
+                };
+
+                var chart = new google.visualization.LineChart(document.getElementById('my-chart'));
+                chart.draw(data, options);
+            }
+        </script>
                 <!-- ============================================================== -->
                 <!-- revenue  -->
-                <!-- ============================================================== -->
+                <!-- ==============================================================--> 
+                <!--
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-8 col-sm-12 col-12">
                         <div class="card">
                             <h5 class="card-header">Donation</h5>
                             <div class="card-body">
-                                <canvas id="revenue" width="400" height="150"></canvas>
+                            <div id="my-chart" style="width: 100%; height: 400px;"></div>
+                <script type="text/javascript">
+            google.charts.load('current', {
+                'packages': ['corechart'],
+                'AIzaSyD2qa7fez3bItj4wIPEUoo07Tx_gX2jctw': ''   // her eyou can put you google map key
+            });
+            google.charts.setOnLoadCallback(drawRegionsMap);
+
+            function drawRegionsMap() {
+                var data = google.visualization.arrayToDataTable([
+                    ['Best before', 'Status'],
+                     <?php
+                     $chartQuery = "SELECT * FROM donations";
+                     $chartQueryRecords = mysqli_query($con, $chartQuery);
+                        while($row = mysqli_fetch_assoc($chartQueryRecords)){
+                            echo "['".$row['best_before']."',".$row['status'].",";
+                        }
+                     ?>
+                ]);
+
+                var options = {
+                   
+                };
+
+                var chart = new google.visualization.LineChart(document.getElementById('my-chart'));
+                chart.draw(data, options);
+            }
+        </script>-->
+                                <!--<canvas id="revenue" width="400" height="150"></canvas>-->
+                                <!--
                             </div>
                             <div class="card-body border-top">
                                 <div class="row">
@@ -234,15 +299,65 @@ include 'logout.php';
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <!-- ============================================================== -->
                     <!-- end reveune  -->
                     <!-- ============================================================== -->
                     <!-- ============================================================== -->
-                   
-                </div>
+                    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+                </div>                 
             </div>
         </div>
+
+<?php
+    $sql_donation_fetch = "SELECT MONTH(best_before) AS month, COUNT(id) AS total_donations FROM donations GROUP BY MONTH(best_before)";
+    $result = mysqli_query($con, $sql_donation_fetch);
+
+    $xValues = array();
+    $yValues = array();
+    $barColors = array("red", "green", "blue", "orange", "brown", "pink", "skyblue", "purple", "black", "maroon", "lightgreen", "violet");
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $xValues[] = date("F", mktime(0, 0, 0, $row["month"], 1));
+        $yValues[] = $row["total_donations"];
+    }
+?>
+
+<script>
+    var xValues = <?php echo json_encode($xValues); ?>;
+    var yValues = <?php echo json_encode($yValues); ?>;
+    var barColors = <?php echo json_encode($barColors); ?>;
+
+    new Chart("myChart", {
+        type: "bar",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+        },
+        options: {
+            legend: {display: false},
+            title: {
+                display: true,
+                text: "Total Donations"
+            },
+            
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number of Donations'
+                    }
+                }]
+            
+            }
+        }
+    
+    });
+</script>
+
         <!-- ============================================================== -->
         <!-- end wrapper  -->
         <!-- ============================================================== -->
@@ -266,6 +381,7 @@ include 'logout.php';
     <script src="../assets/vendor/charts/sparkline/spark-js.js"></script>
      <!-- dashboard sales js-->
     <script src="../assets/libs/js/dashboard-sales.js"></script>
+    
 </body>
  
 </html>
