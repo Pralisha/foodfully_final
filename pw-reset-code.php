@@ -27,13 +27,13 @@ function send_pw_reset($name, $email, $token, $account_type) {
     );
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'foodfullynepal1@gmail.com';
-    $mail->Password = 'uywwkuxmhjntbzqn';
+    $mail->Username = 'foodfullynepal12@gmail.com';
+    $mail->Password = 'rfvpzytytlvknbwz';
     $mail->SMTPSecure = "tls";
     $mail->Port = 587;
 
     //Recipients
-    $mail->setFrom('foodfullynepal1@gmail.com', $name);
+    $mail->setFrom('foodfullynepal12@gmail.com', $name);
     $mail->addAddress($email);
 
 

@@ -240,7 +240,7 @@ if (isset($_GET['delivery'])) {
                                             }
                                            else
                                            {
-                                            $sql = "SELECT * FROM donations WHERE delivery_status=0 AND (status=0 OR acceptor_name='$username') order by id";
+                                            $sql = "SELECT * FROM donations WHERE username='$username' order by id";
                                            }
                                          
                                            
