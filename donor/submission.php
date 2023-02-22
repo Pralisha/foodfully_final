@@ -32,8 +32,8 @@ function sendemail_notification($title, $location) {
 
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'foodfullynepal1@gmail.com';
-    $mail->Password = 'uywwkuxmhjntbzqn';
+    $mail->Username = 'foodfullynepal12@gmail.com';
+    $mail->Password = 'rfvpzytytlvknbwz';
     $mail->SMTPSecure = "tls";
     $mail->Port = 587;
     // $name = $_SESSION['fullname'];
@@ -47,7 +47,7 @@ function sendemail_notification($title, $location) {
         $name = $row['name'];
         $email = $row['email'];
 
-        $mail->setFrom('foodfullynepal1@gmail.com', $name);
+        $mail->setFrom('foodfullynepal12@gmail.com', $name);
         $mail->addAddress($email);
 
 
